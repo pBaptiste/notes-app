@@ -1,13 +1,25 @@
 import { getNotes } from '@/auth/actions'
-import NotesHeader from '../components/NotesHeader'
-import NotesList from '../components/NotesList'
+import NotesHeader from '@/components/NotesHeader'
+import NotesList from '@/components/NotesList'
+import { notFound } from 'next/navigation'
 
-export default async function Home() {
-  const notes = await getNotes(false) // false = not archived
+interface TagPageProps {
+  params: {
+    tag: string
+  }
+}
+
+export default async function TagPage({ params }: TagPageProps) {
+  const tagName = decodeURIComponent(params.tag)
+  const notes = await getNotes(false, tagName)
+
+  if (notes.length === 0) {
+    notFound()
+  }
 
   return (
     <div className="flex flex-col h-full">
-      <NotesHeader title="All Notes" />
+      <NotesHeader title="Tagged Notes" tagName={tagName} />
       <div className="flex-1 flex overflow-hidden">
         <NotesList notes={notes} />
         <div className="flex-1 p-6 bg-gray-50">

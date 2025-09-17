@@ -6,22 +6,36 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "prisma:generate": "env-cmd -f .env.local prisma generate",
+    "prisma:migrate:dev": "env-cmd -f .env.local prisma migrate dev",
+    "prisma:studio": "env-cmd -f .env.local prisma studio"
   },
+ 
   "dependencies": {
+    "@prisma/client": "^6.16.1",
+    "@prisma/extension-accelerate": "^2.0.2",
+    "@supabase/ssr": "^0.7.0",
+    "@supabase/supabase-js": "^2.57.4",
+    "next": "15.5.3",
     "react": "19.1.0",
-    "react-dom": "19.1.0",
-    "next": "15.5.3"
+    "react-dom": "19.1.0"
   },
   "devDependencies": {
-    "typescript": "^5",
-    "@types/node": "^20",
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20.19.13",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@tailwindcss/postcss": "^4",
-    "tailwindcss": "^4",
+    "dotenv-cli": "^7.4.2",
+    "env-cmd": "^10.1.0",
     "eslint": "^9",
     "eslint-config-next": "15.5.3",
-    "@eslint/eslintrc": "^3"
+    "prettier": "^3.6.2",
+    "prettier-plugin-tailwindcss": "^0.6.14",
+    "prisma": "^6.16.1",
+    "tailwindcss": "^4",
+    "tsx": "^4.20.5",
+    "typescript": "^5.9.2"
   }
 }
