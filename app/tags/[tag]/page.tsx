@@ -1,4 +1,4 @@
-import { getNotes } from '@/auth/actions'
+import { getNotes, searchNotes } from '@/auth/actions'
 import NotesHeader from '@/components/NotesHeader'
 import NotesList from '@/components/NotesList'
 import { notFound } from 'next/navigation'
@@ -7,11 +7,28 @@ interface TagPageProps {
   params: {
     tag: string
   }
+  searchParams: {
+    q?: string
+  }
 }
 
-export default async function TagPage({ params }: TagPageProps) {
+export default async function TagPage({ params, searchParams }: TagPageProps) {
   const tagName = decodeURIComponent(params.tag)
-  const notes = await getNotes(false, tagName)
+  const query = searchParams.q
+  
+  // For tag pages, we need to combine tag filtering with search
+  let notes
+  if (query) {
+    // Search within the tag's notes
+    const allTagNotes = await getNotes(false, tagName)
+    const searchResults = await searchNotes(query, false)
+    // Filter search results to only include notes with the current tag
+    notes = searchResults.filter(note => 
+      note.tags.some(tag => tag.name === tagName)
+    )
+  } else {
+    notes = await getNotes(false, tagName)
+  }
 
   if (notes.length === 0) {
     notFound()

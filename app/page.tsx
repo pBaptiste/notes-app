@@ -1,9 +1,16 @@
-import { getNotes } from '@/auth/actions'
+import { getNotes, searchNotes } from '@/auth/actions'
 import NotesHeader from '../components/NotesHeader'
 import NotesList from '../components/NotesList'
 
-export default async function Home() {
-  const notes = await getNotes(false) // false = not archived
+interface HomeProps {
+  searchParams: {
+    q?: string
+  }
+}
+
+export default async function Home({ searchParams }: HomeProps) {
+  const query = searchParams.q
+  const notes = query ? await searchNotes(query, false) : await getNotes(false)
 
   return (
     <div className="flex flex-col h-full">
