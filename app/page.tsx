@@ -16,7 +16,7 @@ export default async function Home({ searchParams }: HomeProps) {
     <div className="flex flex-col h-full">
       <NotesHeader title="All Notes" />
       <div className="flex-1 flex overflow-hidden">
-        <NotesList notes={notes} />
+        <NotesList notes={notes} searchQuery={query} />
         <div className="flex-1 p-6 bg-gray-50">
           <div className="text-center text-gray-500 mt-20">
             <p className="text-lg">Select a note to view</p>

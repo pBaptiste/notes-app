@@ -15,25 +15,39 @@ interface Note {
 
 interface NotesListProps {
   notes: Note[]
+  searchQuery?: string
 }
 
-export default function NotesList({ notes }: NotesListProps) {
+export default function NotesList({ notes, searchQuery }: NotesListProps) {
   return (
     <div className="w-[18.125rem] bg-white border-r border-gray-200 overflow-y-auto">
       <div className="py-5 pl-8 pr-4">
-          {/* Action Buttons */}
+        
+          {/* Action Button */}
           <div className="flex mb-4">
             <Link
               href="/notes/new"
               className="py-3 w-full bg-blue-500 text-white text-preset-4 text-center rounded-[.5rem] hover:bg-blue-700 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-neutral-950 focus:ring-offset-2 focus:ring-offset-white"
             >
-              + Create Note
+              + Create New Note
             </Link>
           </div>
         
         {notes.length === 0 ? (
           <div className=" p-2 bg-neutral-100 border border-neutral-200 rounded-[.5rem]">
-            <p className="text-neutral-950 text-preset-5">You don’t have any notes yet. Start a new note to capture your thoughts and ideas.</p>
+            <p className="text-neutral-950 text-preset-5">
+              {searchQuery?.trim() 
+                ? (
+                  <>
+                    No notes match your search. Try a different keyword or{' '}
+                    <Link href="/notes/new" className="underline">
+                      create a new note
+                    </Link>
+                  </>
+                )
+                : "You don't have any notes yet. Start a new note to capture your thoughts and ideas."
+              }
+            </p>
           </div>
         ) : (
           <div className="space-y-2">
